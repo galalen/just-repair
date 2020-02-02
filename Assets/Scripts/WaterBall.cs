@@ -20,6 +20,7 @@ public class WaterBall : MonoBehaviour
 
         if (other.gameObject.tag == "Enemy") {
             other.gameObject.GetComponent<Enemy>().TakeDamage();
+            Destroy(this.gameObject);
         }
 	}
 }

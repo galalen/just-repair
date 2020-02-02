@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     
-	public float speed = 0.1f;
+	public float speed = 0.5f;
 	public int health = 1;
 
 	public GameObject dud;
@@ -18,6 +18,12 @@ public class Enemy : MonoBehaviour
 	void OnTriggerEnter2D(Collider2D collider)
 	{
 		if (collider.gameObject.tag == "Wall") {
+			Destroy(this.gameObject);
+		}
+
+		if (collider.gameObject.tag == "Chair") {
+			GameObject.Find("Player").GetComponent<Player>().TakeDamage();
+			Destroy(collider.gameObject);
 			Destroy(this.gameObject);
 		}
 

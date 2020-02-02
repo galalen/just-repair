@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Wall
   - Water
+  - Chair
   layers:
   - Default
   - TransparentFX

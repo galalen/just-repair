@@ -81,14 +81,19 @@ public class Player : MonoBehaviour
         // }
 
         if (other.CompareTag("Enemy")) {
-            lifes -= 1;
-            if (lifes == 0) {
-                GameManager.instance.GameOver();
-            } else {
-                UIManager.instance.UpdateLifeText(lifes);
-            }
+            TakeDamage();    
         }
 
+    }
+
+    public void TakeDamage() 
+    {
+        lifes -= 1;
+        if (lifes == 0) {
+            GameManager.instance.GameOver();
+        } else {
+            UIManager.instance.UpdateLifeText(lifes);
+        }
     }
 
 }

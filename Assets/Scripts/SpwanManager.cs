@@ -36,7 +36,7 @@ public class SpwanManager : MonoBehaviour
     public void StartSpwaning() 
     {
         int index  = Random.Range(0, enemiesPrefab.Length);
-        float randomY = Random.Range(-5.5f, 4.5f);
+        float randomY = Random.Range(-5.5f, 3.5f);
 
         Instantiate(enemiesPrefab[index], new Vector3(9.0F, randomY, 0), Quaternion.identity);
     }
