@@ -7,44 +7,50 @@ public class Player : MonoBehaviour
 
     private static float BLOCK_Y = -5.0F;
 
+    public AudioSource audioSource;
     public GameObject block;
     public GameObject blockHolder;
-    public int speed = 10;
+    public GameObject waterBall;
+    public float speed = 10.0f;
     public bool haveBlock;
+    public int lifes = 3;
 
-    private Rigidbody2D rigidbody2d;
-    private GameManager gameManager;
-    
+    private Rigidbody2D rb;
+    private Vector2 movement;
+
 
     void Awake()
     {
-        rigidbody2d = GetComponent<Rigidbody2D> ();
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        rb = GetComponent<Rigidbody2D> ();
         haveBlock = true;
+        //UIManager.instance.UpdateLifeText(lifes);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!gameManager.gameOver) 
+        if (!GameManager.instance.gameOver) 
+        {
+            movement.x = Input.GetAxisRaw("Horizontal");
+            movement.y = Input.GetAxisRaw("Vertical");
+        
+            // Movement();
+            // DropBlock();
+            FireBall();
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (!GameManager.instance.gameOver)
         {
             Movement();
-            DropBlock();
         }
     }
 
     private void Movement() 
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-
-             transform.Translate(Vector3.left * speed * Time.deltaTime, Space.World);
-        } 
-
-        if (Input.GetKeyDown(KeyCode.D)) 
-        {
-            transform.Translate(Vector3.left * -speed * Time.deltaTime, Space.World);
-        }
+        rb.MovePosition(rb.position + movement * speed * Time.deltaTime);
     }
 
     private void DropBlock() {
@@ -59,12 +65,30 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void FireBall()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Instantiate(waterBall, transform.position + new Vector3(0.5f, 0, 0), Quaternion.identity);
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D other) 
     {
-        if (other.gameObject.tag == "Collection") {
-            haveBlock = true;
-            blockHolder.SetActive(true);
+        // if (other.gameObject.tag == "Collection") {
+        //     haveBlock = true;
+        //     blockHolder.SetActive(true);
+        // }
+
+        if (other.CompareTag("Enemy")) {
+            lifes -= 1;
+            if (lifes == 0) {
+                GameManager.instance.GameOver();
+            } else {
+                UIManager.instance.UpdateLifeText(lifes);
+            }
         }
+
     }
 
 }

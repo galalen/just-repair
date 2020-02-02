@@ -7,6 +7,8 @@ TagManager:
   - Ground
   - Collection
   - Enemy
+  - Wall
+  - Water
   layers:
   - Default
   - TransparentFX
